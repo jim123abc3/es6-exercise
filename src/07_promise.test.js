@@ -6,6 +6,8 @@ describe('a Promise represents an operation that hasn`t completed yet, but is ex
 
   it('`Promise` is a global function', () => {
     const expectedType = '???'
+    //Answer
+    const expectedType = 'function'
 
     expect(typeof Promise).toEqual(expectedType)
   })
@@ -14,15 +16,29 @@ describe('a Promise represents an operation that hasn`t completed yet, but is ex
 
     it('resolve a promise by calling the `resolve` function given as first parameter of the function parameter', (done) => {
       let promise = new Promise((resolve) => {
+
       })
 
       promise
         .then(() => done())
         .catch(() => done(new Error('The promise is expected to resolve.')))
+
+      //---------------------------------- Answer ----------------------------------
+      let promise = new Promise((resolve) => {
+          resolve();
+      })
+
+      promise
+        .then(() => done())
+        .catch(() => done(new Error('The promise is expected to resolve.')))
+
+      //---------------------------------- Answer ----------------------------------
+
     })
 
     it('rejecting a promise is done by calling the callback given as 2nd parameter of the function parameter', (done) => {
-      let promise = new Promise(() => {
+      let promise = new Promise((resolve,reject) => {
+        reject(); // ANSWER----reject(); wasn't there before
       })
 
       promise
@@ -43,8 +59,13 @@ describe('a promise can be created in multiple ways', () => {
   describe('most commonly Promises get created using the constructor', () => {
 
     it('by passing a resolve function to it', () => {
+
       const promise = new Promise(() => resolve())
       return promise
+
+      //---------------------Answer -----------------------
+      const promise = new Promise((resolve) => resolve())
+
     })
   })
 
@@ -52,6 +73,7 @@ describe('a promise can be created in multiple ways', () => {
   describe('`Promise.all()` returns a promise that resolves when all given promises resolve', () => {
 
     it('returns all results', (done) => {
+
       const promise = Promise.all([
         new Promise(resolve => resolve(1)),
         new Promise(resolve => resolve(2)),
@@ -61,7 +83,7 @@ describe('a promise can be created in multiple ways', () => {
       // Note: In that case you need to modify the expect!!!
       promise
         .then(value => {
-          expect(value).toEqual([1, 2])
+          expect(value).toEqual([1, 2])   // Answer ...toEqual([1, 2, 3])
           done()
         })
         .catch(e => {
@@ -101,6 +123,14 @@ describe('chaining multiple promises can enhance readability', () => {
           expect(actual).toEqual('one space between each word')
         })
 
+        //------------------------------------------Answer------------------------------------------
+         const wordsPromise = Promise.resolve('one   space     between each     word')
+          .then(string => removeMultipleSpaces(string))
+          .then(actual => {
+            expect(actual).toEqual('one space between each word')
+          })
+        //------------------------------------------Answer------------------------------------------
+
     })
 
     const appendPeriod = string => `${string}.`
@@ -112,6 +142,15 @@ describe('chaining multiple promises can enhance readability', () => {
         .then(actual => {
           expect(actual).toEqual('Sentence without an end.')
         })
+
+        //----------------------------Answer----------------------------
+         const wordsPromise = Promise.resolve('Sentence without       an end')
+          .then(removeMultipleSpaces)
+          .then(appendPeriod)
+          .then(actual => {
+            console.log(actual)
+          })
+        //----------------------------Answer----------------------------
 
     })
 
@@ -126,6 +165,17 @@ describe('chaining multiple promises can enhance readability', () => {
         .then(actual => {
           expect(actual).toEqual('Sentence without an end.')
         })
+
+      //----------------------------Answer----------------------------
+        const wordsPromise = Promise.resolve('Sentence without       an end ')
+        .then(appendPeriod)
+        .then(trim)
+        .then(removeMultipleSpaces)
+        .then(actual => {
+          expect(actual).toEqual('Sentence without an end.')
+        })
+      //----------------------------Answer----------------------------
+
     })
 
   })

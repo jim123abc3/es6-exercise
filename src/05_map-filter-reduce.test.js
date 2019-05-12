@@ -15,6 +15,9 @@ describe('use map', () => {
     // Write a concise anonymous function using .map to return an array containing the array above
     const petNames = __
 
+    //Answer
+    const petNames = pets.map(el => `${el.name} is a ${el.species}`)
+
     expect(petNames).toEqual([
       'guincho is a dog',
       'felix is a cat',
@@ -32,6 +35,9 @@ describe('use filter', () => {
   it('filters for numbers over 60', () => {
     // Write a concise anonymous function using .filter to return an array containing all the numbers over 60 called overSixty
     const overSixty = __
+
+    //Answer
+    const overSixty = numbers.filter(number => number > 60)
 
     expect(overSixty).toEqual([
       65,
@@ -58,6 +64,19 @@ describe('use reduce', () => {
     // stored in a variable called orderTotal
     const orderTotal = __
 
+    //Answer
+
+    //OLD ES5 WAY
+    const orderTotalES5 = orders.reduce(function(accumulator, currentValue){
+
+        return accumulator + currentValue.amount;
+
+    } , 0)
+
+    //ES6 ARROW FUNC WAY
+    const orderTotal = orders.reduce(
+      (accumulator, currentValue) => accumulator + currentValue.amount , 0
+    )
     expect(orderTotal).toEqual(1170)
   })
 })
